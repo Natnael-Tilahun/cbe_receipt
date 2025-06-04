@@ -2,64 +2,15 @@
 
 // Keep generateReceiptHtml function from previous step, we'll modify its content later.
 
-interface CompanyInfo {
-    country: string;
-    city: string;
-    address: string;
-    postalCode: string;
-    swiftCode: string;
-    email: string;
-    tel: string;
-    fax: string;
-    tfn: string;
-    vatReceiptNo: string;
-    vatRegNo: string;
-    vatRegDate: string;
-    name: string; // e.g., "Commercial Bank of Ethiopia"
-    receiptTitle: string; // e.g., "VAT Invoice / Customer Receipt"
-    logoBase64?: string; // <<< For the base64 encoded logo
-  }
-  
-  interface CustomerInfo {
-    name: string;
-    region: string;
-    city: string;
-    subCity: string;
-    weredaKebele: string;
-    vatRegNo?: string;
-    vatRegDate?: string;
-    tin: string;
-    branch: string;
-  }
-  
-  interface PaymentInfo {
-    payer: string;
-    payerAccount: string;
-    receiver: string;
-    receiverAccount: string;
-    dateTime: string;
-    referenceNo: string;
-    reason: string;
-    amount: string;
-    commission: string;
-    vatOnCommission: string;
-    totalDebited: string;
-  }
-  
-  // This will be the main data structure expected by the API and the template function
-  export interface CBEReceiptData {
-    // company: CompanyInfo;
-    customer: CustomerInfo;
-    payment: PaymentInfo;
-    amountInWords: string;
-  }
+
   
  // server/api/generate-receipt.post.ts
 import puppeteer, { type Browser } from 'puppeteer'; // Import Browser type for clarity
 import { defineEventHandler, readBody, H3Event } from 'h3';
 
 // Ensure this path is correct and the file is error-free
-import { generateReceiptHtml, type CBEReceiptData } from '../utils/receiptHtmlTemplate';
+import { generateReceiptHtml } from '../utils/receiptHtmlTemplate';
+import { CBEReceiptData } from '~/types';
 
 export default defineEventHandler(async (event: H3Event) => {
   console.log('[API /generate-receipt] Request received.');
@@ -68,15 +19,36 @@ export default defineEventHandler(async (event: H3Event) => {
 
   try {
     const body = await readBody<CBEReceiptData>(event);
-    console.log('[API /generate-receipt] Body parsed successfully.');
-
-    // Basic validation (you might want more thorough validation based on your needs)
-    if (!body || !body.company || !body.customer || !body.payment || !body.amountInWords) {
-      console.error('[API /generate-receipt] Invalid receipt data structure received:', body);
+    // More detailed validation
+    if (!body) {
+      console.error('[API /generate-receipt] No body received');
       event.node.res.statusCode = 400;
-      return { error: 'Invalid receipt data structure provided.' };
+      return { error: 'No data provided.' };
     }
-    console.log('[API /generate-receipt] Receipt data validated.');
+
+    if (!body.company) {
+      console.error('[API /generate-receipt] Missing company data');
+      event.node.res.statusCode = 400;
+      return { error: 'Company information is required.' };
+    }
+
+    if (!body.customer) {
+      console.error('[API /generate-receipt] Missing customer data');
+      event.node.res.statusCode = 400;
+      return { error: 'Customer information is required.' };
+    }
+
+    if (!body.payment) {
+      console.error('[API /generate-receipt] Missing payment data');
+      event.node.res.statusCode = 400;
+      return { error: 'Payment information is required.' };
+    }
+
+    if (!body.amountInWords) {
+      console.error('[API /generate-receipt] Missing amount in words');
+      event.node.res.statusCode = 400;
+      return { error: 'Amount in words is required.' };
+    }
 
     const htmlContent = generateReceiptHtml(body);
     console.log('[API /generate-receipt] HTML content generated. Length:', htmlContent.length);

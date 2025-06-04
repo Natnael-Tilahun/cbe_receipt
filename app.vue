@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import Receipt from './components/receipt.vue';
-import ReceiptGenerator from './pages/receipt-generator.vue';
-
+// No need to import the dynamic page component
 </script>
 
 <template>
   <div>
-    <!-- <Receipt /> -->
-     <ReceiptGenerator />
+    <NuxtPage />
   </div>
 </template>

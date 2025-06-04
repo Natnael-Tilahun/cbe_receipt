@@ -5,8 +5,6 @@ const props = defineProps({
     fullWidth: Boolean,
     itemClass: String
   })
-
-  console.log("props: ", props)
 </script>
 
 <template>
