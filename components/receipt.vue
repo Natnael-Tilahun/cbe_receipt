@@ -15,7 +15,7 @@
                     <!-- Company Information -->
                     <div class="mb-">
                         <h2 class="md:text-base text-sm font-medium mb-2 border-b pb-1">Company Address & Other Information</h2>
-                        <div class="grid gap-2">
+                        <div class="grid gap-1">
                             <InfoItem label="Country:" :value="company.country" />
                             <InfoItem label="City:" :value="company.city" />
                             <InfoItem label="Address:" :value="company.address" />
@@ -34,7 +34,7 @@
                     <!-- Customer Information -->
                     <div class="mb-">
                         <h2 class="md:text-base text-sm font-medium mb-2 border-b pb-1">Customer Information</h2>
-                        <div class="grid grid-cols-1 gap-2">
+                        <div class="grid grid-cols-1 gap-1">
                             <InfoItem label="Customer Name:" :value="customer.name" />
                             <InfoItem label="Region:" :value="customer.region" />
                             <InfoItem label="City:" :value="customer.city" />
@@ -52,7 +52,7 @@
                 <!-- <div class="border-t border-gray-300 col-span-full"></div> -->
 
                 <!-- Payment Information -->
-                <div class="mb-4 col-span-full border-t ">
+                <div class="mb-4 col-span-full rounded-md relative py-2">
                     <h2 class="text-lg font-medium py-2 text-center">Payment / Transaction Information</h2>
                     <div class="border rounded-lg overflow-hidden p-4 flex flex-col gap-3">
                         <InfoItem label="Payer:" class="border-b text-sm md:text-base" :value="payment.payer" :fullWidth="true" />
@@ -79,13 +79,32 @@
                                 :fullWidth="true" />
                         </div>
                     </div>
+                    <img
+            v-if="receiptData.company.logoBase64"
+            width="200"
+            height="200"
+            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-50"
+            src="/cbestamp.png"
+            alt="Company Logo"
+          />
                 </div>
 
                 <!-- Amount in Words -->
-                <div class="bg-gray-100 p-3 rounded-lg text-center mb-4 text-sm">
+                <div class="flex flex-col md:flex-row items-center justify-between border p-2 md:p-0 md:px-4 md:gap-4">
+                <div class="bg-gray-100 p-3 rounded-lg text-center mb-4 text-sm h-fit w-full">
                     <p class="font-semibold">Amount in Word:</p>
                     <p>{{ amountInWords }}</p>
                 </div>
+                <UiCard
+              class="w-24 h-24 flex justify-center items-center  place-self-center my-2 bg-gray-50 dark:bg-white"
+              v-if="receiptData"
+            >
+              <img
+                :src="`https://api.qrserver.com/v1/create-qr-code/?data=https://cbe-receipt.vercel.app/receipt-generator?id=FT21343Z9J67-150744672`"
+                alt="QR Code"
+              />
+            </UiCard>
+           </div>
 
                 <!-- Footer -->
                 <div class="text-center text-sm">

@@ -48,7 +48,7 @@ interface CompanyInfo {
   
   // This will be the main data structure expected by the API and the template function
   export interface CBEReceiptData {
-    company: CompanyInfo;
+    // company: CompanyInfo;
     customer: CustomerInfo;
     payment: PaymentInfo;
     amountInWords: string;
