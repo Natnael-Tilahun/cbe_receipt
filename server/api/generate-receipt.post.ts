@@ -1,49 +1,40 @@
-// server/utils/receiptHtmlTemplate.ts
-
-// Keep generateReceiptHtml function from previous step, we'll modify its content later.
-
-
-  
- // server/api/generate-receipt.post.ts
-import puppeteer, { type Browser } from 'puppeteer'; // Import Browser type for clarity
+// server/api/generate-receipt.post.ts
+import puppeteerCore, { type Browser } from 'puppeteer-core'; // Import from puppeteer-core
+import chromium from '@sparticuz/chromium'; // Import @sparticuz/chromium
 import { defineEventHandler, readBody, H3Event } from 'h3';
 
 // Ensure this path is correct and the file is error-free
-import { generateReceiptHtml } from '../utils/receiptHtmlTemplate';
-import { CBEReceiptData } from '~/types';
+import { generateReceiptHtml } from '../utils/receiptHtmlTemplate'; // Assuming this is correct
+import { CBEReceiptData } from '~/types'; // Assuming this is correct
 
 export default defineEventHandler(async (event: H3Event) => {
   console.log('[API /generate-receipt] Request received.');
 
-  let browser: Browser | null = null; // Declare browser outside try so it can be closed in finally
+  let browser: Browser | null = null;
 
   try {
     const body = await readBody<CBEReceiptData>(event);
-    // More detailed validation
     if (!body) {
       console.error('[API /generate-receipt] No body received');
       event.node.res.statusCode = 400;
       return { error: 'No data provided.' };
     }
-
+    // Your existing validations for company, customer, payment, amountInWords...
     if (!body.company) {
       console.error('[API /generate-receipt] Missing company data');
       event.node.res.statusCode = 400;
       return { error: 'Company information is required.' };
     }
-
     if (!body.customer) {
       console.error('[API /generate-receipt] Missing customer data');
       event.node.res.statusCode = 400;
       return { error: 'Customer information is required.' };
     }
-
     if (!body.payment) {
       console.error('[API /generate-receipt] Missing payment data');
       event.node.res.statusCode = 400;
       return { error: 'Payment information is required.' };
     }
-
     if (!body.amountInWords) {
       console.error('[API /generate-receipt] Missing amount in words');
       event.node.res.statusCode = 400;
@@ -54,80 +45,113 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log('[API /generate-receipt] HTML content generated. Length:', htmlContent.length);
 
     // --- Puppeteer Logic ---
+    console.log('[API /generate-receipt] Determining Chromium executable path...');
+    let executablePath: string | undefined;
+
+    if (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview' || process.env.NODE_ENV === 'production') {
+      // Vercel or other production-like environments
+      console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel/production.');
+      executablePath = await chromium.executablePath();
+    } else {
+      // Local development
+      console.log('[API /generate-receipt] Using local Chromium for development.');
+      // 1. Try environment variable
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+      // 2. Try puppeteer-core's discovery (looks for system-installed Chrome)
+      if (!executablePath) {
+        try {
+          executablePath = puppeteerCore.executablePath();
+        } catch (e) {
+          console.warn('[API /generate-receipt] puppeteerCore.executablePath() failed to find local Chrome. This is common if Chrome is not in standard path or PUPPETEER_EXECUTABLE_PATH is not set.');
+        }
+      }
+      // 3. Fallback to @sparticuz/chromium if still not found (useful for consistent testing or if local Chrome is tricky)
+      //    This means @sparticuz/chromium will download its binary locally if not cached.
+      if (!executablePath) {
+          console.warn('[API /generate-receipt] Local Chrome not found/configured. Falling back to @sparticuz/chromium for local development.');
+          try {
+              executablePath = await chromium.executablePath(); // This might download chromium locally
+          } catch (e: any) {
+              console.error('[API /generate-receipt] Failed to get executable path from @sparticuz/chromium locally:', e.message);
+          }
+      }
+    }
+
+    if (!executablePath) {
+      const errorMessage = '[API /generate-receipt] Chromium executable path could not be determined. For local dev, set PUPPETEER_EXECUTABLE_PATH or ensure Chrome/Chromium is installed and findable. On Vercel, this indicates an issue with @sparticuz/chromium.';
+      console.error(errorMessage);
+      event.node.res.statusCode = 500;
+      return { error: 'Failed to configure PDF generator.', details: errorMessage };
+    }
+    console.log(`[API /generate-receipt] Using executable path: ${executablePath}`);
+
     console.log('[API /generate-receipt] Launching Puppeteer...');
-    // For production/CI, you might need to specify executablePath if Chromium isn't found:
-    // const executablePath = process.env.CHROME_BIN || undefined;
-    // browser = await puppeteer.launch({
-    //   executablePath,
-    //   headless: "new",
-    //   args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-    // });
-    browser = await puppeteer.launch({
-      headless: "new", // Modern headless mode
+    browser = await puppeteerCore.launch({
       args: [
-        '--no-sandbox', // Essential for running in many server/container environments
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage', // Addresses issues in some Docker environments
-        '--single-process', // Try if other args don't resolve launch issues
-        '--no-zygote' // Try if other args don't resolve launch issues
-      ]
+        ...chromium.args,
+        '--font-render-hinting=none', // Optional: Can improve font rendering on some Linux systems
+        // '--disable-web-security', // Uncomment if you face issues loading local/cross-origin resources in HTML
+      ],
+      defaultViewport: chromium.defaultViewport,
+      executablePath: executablePath,
+      headless: chromium.headless, // Uses the headless mode recommended by @sparticuz/chromium (usually 'new' or true)
+      ignoreHTTPSErrors: true, // Good for development or if dealing with self-signed certs for resources
     });
     console.log('[API /generate-receipt] Puppeteer browser launched.');
 
     const page = await browser.newPage();
     console.log('[API /generate-receipt] Puppeteer page created.');
 
-    // Optional: Set viewport for consistent rendering if your CSS relies on it
-    // await page.setViewport({ width: 1200, height: 800 }); // Example viewport
-
     console.log('[API /generate-receipt] Setting page content...');
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); // Waits for network activity to cease (e.g., CDN CSS)
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
     console.log('[API /generate-receipt] Page content set.');
+
+    // Optional: Emulate print media type if your CSS has @media print styles
+    await page.emulateMediaType('print');
 
     console.log('[API /generate-receipt] Generating PDF...');
     const pdfBuffer = await page.pdf({
       format: 'A4',
-      printBackground: true, // Important for Tailwind background colors
+      printBackground: true,
       margin: {
         top: '15mm',
         right: '15mm',
         bottom: '15mm',
         left: '15mm',
       },
+      // Consider adding displayHeaderFooter: false if you don't want default headers/footers
     });
     console.log('[API /generate-receipt] PDF generated. Buffer length:', pdfBuffer.length);
     // --- End Puppeteer Logic ---
 
-
-    // Set headers for PDF download
     event.node.res.setHeader('Content-Type', 'application/pdf');
     const filename = `CBE-Receipt-${body.payment.referenceNo || Date.now()}.pdf`;
     event.node.res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     console.log(`[API /generate-receipt] Sending PDF: ${filename}`);
 
-    return pdfBuffer; // Nuxt 3/h3 will handle sending the buffer
+    return pdfBuffer;
 
   } catch (error: any) {
-    console.error('[API /generate-receipt] Critical error during PDF generation:', error);
-    // Log more details if available
+    console.error('[API /generate-receipt] Critical error during PDF generation:', error.message);
     if (error.stack) {
       console.error(error.stack);
     }
-
-    // Ensure the response indicates an error to the client
-    if (!event.node.res.headersSent) {
-        event.node.res.statusCode = 500;
-        return {
-          error: 'Failed to generate PDF.',
-          details: error.message || String(error),
-        };
-    } else {
-        // If headers already sent, we can't send a new JSON error body,
-        // but the error is logged, and the connection might be cut.
-        console.error('[API /generate-receipt] Headers already sent, cannot send JSON error response.');
+    // Log specific details if from Chromium launch failure
+    if (error.message.includes('Failed to launch browser process') || error.message.includes('Could not find Chromium')) {
+        console.error('[API /generate-receipt] This might be related to Chromium setup, missing dependencies on the server, or incorrect executablePath.');
     }
-    // Fallback in case the return inside the if block isn't reached (should not happen)
-    return { error: "An unexpected server error occurred." };
+
+    if (!event.node.res.headersSent) {
+      event.node.res.statusCode = 500;
+      return {
+        error: 'Failed to generate PDF.',
+        details: error.message || String(error),
+      };
+    } else {
+      console.error('[API /generate-receipt] Headers already sent, cannot send JSON error response.');
+    }
+    // Fallback for safety, though the above should handle it
+    return { error: 'An unexpected server error occurred during PDF generation.' };
 
   } finally {
     if (browser) {
