@@ -23,7 +23,7 @@
     <div v-if="receiptData && !isLoading"
       class="w-full max-w-3xl bg-white text-black shadow-lg rounded-lg overflow-hidden mb-20">
       <!-- Receipt Header -->
-      <div class="bg-primary print:bg-primary text-white p-4 text-center flex items-center">
+      <div class="bg-[#83257a] print:bg-[#83257a] text-white p-4 text-center flex items-center">
         <img v-if="company.logoBase64" width="60" height="50" class="rounded-lg" :src="company.logoBase64"
           alt="Company Logo" />
         <div v-else class="w-[60px] h-[50px] bg-gray-500 rounded-lg flex items-center justify-center text-xs">No Logo
@@ -132,7 +132,7 @@
 
     <!-- Action Buttons -->
     <div class="flex gap-4 fixed bottom-5 z-10">
-      <Button v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
+      <Button class="bg-[#83257a] " v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
         <span v-if="isDownloadingPDF">Generating PDF...</span>
         <span v-else>Download PDF</span>
       </Button>
