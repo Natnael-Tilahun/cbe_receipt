@@ -3,7 +3,7 @@
     <!-- Loading State -->
     <!-- Loading state -->
     <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
-      <div class="animate-spin rounded-full h-14 w-14 border-b-8 border-primary"></div>
+      <div class="animate-spin rounded-full h-14 w-14 border-b-8 border-[#83257a]"></div>
     </div>
 
     <!-- Error State -->
@@ -29,8 +29,8 @@
         <div v-else class="w-[60px] h-[50px] bg-gray-500 rounded-lg flex items-center justify-center text-xs">No Logo
         </div>
         <div class="w-full">
-          <h1 class="text-2xl font-bold">{{ company.name }}</h1>
-          <p class="text-lg">{{ company.receiptTitle }}</p>
+          <h1 class="md:text-2xl text-xl font-bold">{{ company.name }}</h1>
+          <p class="md:text-lg text-sm">{{ company.receiptTitle }}</p>
         </div>
       </div>
 
@@ -110,8 +110,8 @@
         </div>
 
         <!-- Amount in Words -->
-        <div class="flex flex-col md:flex-row items-center justify-between border p-2 md:p-0 md:px-4 md:gap-4">
-          <div class="bg-gray-100 p-3 rounded-lg text-center h-fit w-full">
+        <div class="flex flex-col md:flex-row items-center justify-between border p-2 md:p-0 md:px-4 md:gap-4 rounded-md">
+          <div class="bg-gray-100 p-2 rounded-lg text-center h-fit w-full">
             <p class="font-semibold ">Amount in Word:</p>
             <p class="text-gray-800 text-sm">{{ receiptData.amountInWords }}</p>
           </div>
@@ -123,16 +123,16 @@
 
 
         <!-- Footer -->
-        <div class="text-center text-sm text-gray-600 pt-4 border-t">
-          <p class="font-semibold text-primary">The Bank you can always rely on.</p>
-          <p>© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
+        <div class="text-center text-gray-600 pt-4 border-t">
+          <p class="font-semibold text-[#83257a] text-base">The Bank you can always rely on.</p>
+          <p class="text-sm">© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
         </div>
       </div>
     </div>
 
     <!-- Action Buttons -->
     <div class="flex gap-4 fixed bottom-5 z-10">
-      <Button class="bg-[#83257a] " v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
+      <Button class="bg-[#83257a] text-white " v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
         <span v-if="isDownloadingPDF">Generating PDF...</span>
         <span v-else>Download PDF</span>
       </Button>
