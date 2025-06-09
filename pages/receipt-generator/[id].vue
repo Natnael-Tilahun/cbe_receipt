@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+  <div class="min-h-screen bg-gray-100 p-2 md:p-4 flex flex-col items-center">
     <!-- Loading State -->
     <!-- Loading state -->
     <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
@@ -21,26 +21,26 @@
 
     <!-- Receipt Display -->
     <div v-if="receiptData && !isLoading"
-      class="w-full max-w-3xl bg-white text-black shadow-lg rounded-lg overflow-hidden mb-20">
+      class="w-full max-w-3xl bg-white text-black shadow-lg rounded-lg overflow-hidden md:mb-20">
       <!-- Receipt Header -->
-      <div class="bg-[#83257a] print:bg-[#83257a] text-white p-4 text-center flex items-center">
-        <img v-if="company.logoBase64" width="60" height="50" class="rounded-lg" :src="company.logoBase64"
+      <div class="bg-[#83257a] print:bg-[#83257a] text-white p-1 md:p-4 text-center flex items-center">
+        <img v-if="company.logoBase64" class="rounded-lg md:w-[60px] md:h-[50px] w-[40px] h-[40px]" :src="company.logoBase64"
           alt="Company Logo" />
         <div v-else class="w-[60px] h-[50px] bg-gray-500 rounded-lg flex items-center justify-center text-xs">No Logo
         </div>
         <div class="w-full">
-          <h1 class="md:text-2xl text-xl font-bold">{{ company.name }}</h1>
+          <h1 class="md:text-2xl text-lg font-bold">{{ company.name }}</h1>
           <p class="md:text-lg text-sm">{{ company.receiptTitle }}</p>
         </div>
       </div>
 
-      <div class="p-6">
-        <div class="grid grid-cols-2 gap-x-10 gap-y-6 mb-6">
+      <div class="md:p-6 p-4">
+        <div class="grid grid-cols-2 gap-x-5 md:gap-x-10 md:gap-y-6 mb-3 md:mb-6">
           <!-- Company Information -->
           <div>
-            <h2 class="md:text-base text-sm font-semibold mb-2 border-b pb-1">Company Address & Other Information</h2>
+            <h2 class="md:text-base text-xs font-semibold mb-1 md:mb-2 border-b md:pb-1">Company Address & Other Information</h2>
             <div class="grid gap-1 md:gap-2">
-              <InfoItem label="Country:" :value="company.country" itemClass="text-xs md:text-sm" />
+              <InfoItem label="Country:" :value="company.country" itemClass="text-xs md:text-sm gap-0" />
               <InfoItem label="City:" :value="company.city" itemClass="text-xs md:text-sm" />
               <InfoItem label="Address:" :value="company.address" itemClass="text-xs md:text-sm" />
               <InfoItem label="Postal code:" :value="company.postalCode" itemClass="text-xs md:text-sm " />
@@ -56,52 +56,52 @@
           </div>
           <!-- Customer Information -->
           <div>
-            <h2 class="md:text-base text-sm font-semibold mb-2 border-b pb-1">Customer Information</h2>
+            <h2 class="md:text-base text-xs font-semibold mb-1 md:mb-2 border-b md:pb-1">Customer Information</h2>
             <div class="grid grid-cols-1 gap-1 md:gap-2">
-              <InfoItem label="Customer Name:" :value="receiptData.customer.name" itemClass=" text-xs md:text-sm " />
-              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-xs md:text-sm " />
-              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-xs md:text-sm " />
+              <InfoItem label="Customer Name:" :value="receiptData.customer.name" itemClass=" text-xs md:text-sm gap-0" />
+              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-xs md:text-sm gap-0" />
+              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-xs md:text-sm gap-0" />
+              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-xs md:text-sm gap-0" />
               <InfoItem label="Wereda/Kebele:" :value="receiptData.customer.weredaKebele"
-                itemClass="text-xs md:text-sm " />
+                itemClass="text-xs md:text-sm gap-0" />
               <InfoItem label="VAT Registration No:" :value="receiptData.customer.vatRegNo"
-                itemClass="text-xs md:text-sm " />
+                itemClass="text-xs md:text-sm gap-0" />
               <InfoItem label="VAT Registration Date:" :value="receiptData.customer.vatRegDate"
-                itemClass="text-xs md:text-sm " />
-              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-xs md:text-sm " />
+                itemClass="text-xs md:text-sm gap-0" />
+              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-xs md:text-sm gap-0" />
+              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-xs md:text-sm gap-0" />
             </div>
           </div>
         </div>
 
         <!-- Payment Information -->
-        <div class="mb-6 border rounded-md relative py-2">
-          <h2 class="md:text-lg text-base font-semibold py-2 px-4  text-center border-b ">Payment / Transaction
+        <div class="md:mb-6 mb-2 border rounded-md relative md:py-2">
+          <h2 class="md:text-lg text-sm font-semibold py-1 md:py-2 px-4  text-center border-b ">Payment / Transaction
             Information</h2>
-          <div class=" overflow-hidden flex flex-col gap-1">
+          <div class=" overflow-hidden flex flex-col md:gap-1">
             <InfoItem label="Payer:" :value="receiptData.payment.payer"
-              itemClass="border-b text-sm md:text-base py-2 px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2 px-4" :fullWidth="true" />
             <InfoItem label="Account:" :value="receiptData.payment.payerAccount"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Receiver:" :value="receiptData.payment.receiver"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Account:" :value="receiptData.payment.receiverAccount"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Payment Date & Time:" :value="receiptData.payment.dateTime"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Reference No. (VAT Invoice No):" :value="receiptData.payment.referenceNo"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Reason / Type of service:" :value="receiptData.payment.reason"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Transferred Amount:" :value="receiptData.payment.amount"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="Commission or Service Charge:" :value="receiptData.payment.commission"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
             <InfoItem label="15% VAT on Commission:" :value="receiptData.payment.vatOnCommission"
-              itemClass="border-b text-sm md:text-base py-2  px-4" :fullWidth="true" />
-            <div class="pt-2">
+              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+            <div class="md:pt-2">
               <InfoItem label="Total amount debited from customer's account:" :value="receiptData.payment.totalDebited"
-                itemClass="text-sm md:text-base font-semibold py-2 px-4" :fullWidth="true" />
+                itemClass="text-xs md:text-base font-semibold py-1 md:py-2 px-4" :fullWidth="true" />
             </div>
           </div>
           <img v-if="company.logoBase64" width="200" height="200"
@@ -110,12 +110,12 @@
         </div>
 
         <!-- Amount in Words -->
-        <div class="flex flex-col md:flex-row items-center justify-between border p-2 md:p-0 md:px-4 md:gap-4 rounded-md">
-          <div class="bg-gray-100 p-2 rounded-lg text-center h-fit w-full">
-            <p class="font-semibold ">Amount in Word:</p>
-            <p class="text-gray-800 text-sm">{{ receiptData.amountInWords }}</p>
+        <div class="flex flex-col md:flex-row items-center justify-between border md:p-0 md:px-4 md:gap-4 rounded-md">
+          <div class="bg-gray-100 p-1 md:p-2 rounded-lg text-center h-fit w-full">
+            <p class="font-semibold text-sm md:text-base">Amount in Word:</p>
+            <p class="text-gray-800 text-xs md:text-sm">{{ receiptData.amountInWords }}</p>
           </div>
-          <UiCard class="w-24 h-24 flex justify-center items-center place-self-center my-2 bg-gray-50 dark:bg-white"
+          <UiCard class="md:w-24 md:h-24 h-16 w-16 flex justify-center items-center place-self-center my-2 bg-gray-50 dark:bg-white"
             v-if="qrCodeUrl">
             <img :src="qrCodeUrl" alt="QR Code" />
           </UiCard>
@@ -123,9 +123,9 @@
 
 
         <!-- Footer -->
-        <div class="text-center text-gray-600 pt-4 border-t">
-          <p class="font-semibold text-[#83257a] text-base">The Bank you can always rely on.</p>
-          <p class="text-sm">© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
+        <div class="text-center text-gray-600 md:pt-4 pt-2 border-t">
+          <p class="font-semibold text-[#83257a] text-sm md:text-base">The Bank you can always rely on.</p>
+          <p class="md:text-sm text-xs">© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
         </div>
       </div>
     </div>
