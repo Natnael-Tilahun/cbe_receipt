@@ -322,7 +322,8 @@ async function fetchReceiptData() {
     return;
   }
 
-  const apiUrl = `https://integrationtest.cbe.com.et/api/v1/transactions/public/transaction-detail/${transactionId}`;
+  const baseApiUrl = runtimeConfig.public.API_BASE_URL
+  const apiUrl = `${baseApiUrl}/api/v1/transactions/public/transaction-detail/${transactionId}`;
   const headers: Record<string, string> = {
     'X-App-ID': runtimeConfig.public.X_APP_ID as string,
     'X-App-Version': runtimeConfig.public.X_APP_VERSION as string,
