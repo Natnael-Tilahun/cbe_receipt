@@ -34,74 +34,74 @@
         </div>
       </div>
 
-      <div class="md:p-6 p-4">
+      <div class="md:px-6 p-4">
         <div class="grid grid-cols-2 gap-x-5 md:gap-x-10 md:gap-y-6 mb-3 md:mb-6">
           <!-- Company Information -->
           <div>
-            <h2 class="md:text-base text-xs font-semibold mb-1 md:mb-2 border-b md:pb-1">Company Address & Other Information</h2>
+            <h2 class="md:text-base text-[11px] font-semibold mb-1 md:mb-2 border-b md:pb-1">Company Address & Other Information</h2>
             <div class="grid gap-1 md:gap-2">
-              <InfoItem label="Country:" :value="company.country" itemClass="text-xs md:text-sm gap-0" />
-              <InfoItem label="City:" :value="company.city" itemClass="text-xs md:text-sm" />
-              <InfoItem label="Address:" :value="company.address" itemClass="text-xs md:text-sm" />
-              <InfoItem label="Postal code:" :value="company.postalCode" itemClass="text-xs md:text-sm " />
-              <InfoItem label="SWIFT Code:" :value="company.swiftCode" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Email:" :value="company.email" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Tel:" :value="company.tel" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Fax:" :value="company.fax" itemClass="text-xs md:text-sm " />
-              <InfoItem label="Tfn:" :value="company.tfn" itemClass="text-xs md:text-sm " />
-              <InfoItem label="VAT Receipt No:" :value="company.vatReceiptNo" itemClass="text-xs md:text-sm " />
-              <InfoItem label="VAT Registration No:" :value="company.vatRegNo" itemClass="text-xs md:text-sm " />
-              <InfoItem label="VAT Registration Date:" :value="company.vatRegDate" itemClass=" text-xs md:text-sm " />
+              <InfoItem label="Country:" :value="company.country" itemClass="text-[10px] md:text-sm space-x-2" />
+              <InfoItem label="City:" :value="company.city" itemClass="text-[10px] md:text-sm" />
+              <InfoItem label="Address:" :value="company.address" itemClass="text-[10px] md:text-sm" />
+              <InfoItem label="Postal code:" :value="company.postalCode" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="SWIFT Code:" :value="company.swiftCode" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="Email:" :value="company.email" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="Tel:" :value="company.tel" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="Fax:" :value="company.fax" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="Tin:" :value="company.tfn" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="VAT Receipt No:" :value="company.vatReceiptNo" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="VAT Registration No:" :value="company.vatRegNo" itemClass="text-[10px] md:text-sm " />
+              <InfoItem label="VAT Registration Date:" :value="company.vatRegDate" itemClass=" text-[10px] md:text-sm " />
             </div>
           </div>
           <!-- Customer Information -->
           <div>
-            <h2 class="md:text-base text-xs font-semibold mb-1 md:mb-2 border-b md:pb-1">Customer Information</h2>
+            <h2 class="md:text-base text-[11px] font-semibold mb-1 md:mb-2 border-b md:pb-1">Customer Information</h2>
             <div class="grid grid-cols-1 gap-1 md:gap-2">
-              <InfoItem label="Customer Name:" :value="receiptData.customer.name" itemClass=" text-xs md:text-sm gap-0" />
-              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-xs md:text-sm gap-0" />
-              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-xs md:text-sm gap-0" />
-              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-xs md:text-sm gap-0" />
+              <InfoItem label="Customer Name:" :value="receiptData.customer.name" itemClass=" text-[10px] md:text-sm gap-0" />
+              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-[10px] md:text-sm gap-0" />
+              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-[10px] md:text-sm gap-0" />
+              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-[10px] md:text-sm gap-0" />
               <InfoItem label="Wereda/Kebele:" :value="receiptData.customer.weredaKebele"
-                itemClass="text-xs md:text-sm gap-0" />
+                itemClass="text-[10px] md:text-sm gap-0" />
               <InfoItem label="VAT Registration No:" :value="receiptData.customer.vatRegNo"
-                itemClass="text-xs md:text-sm gap-0" />
+                itemClass="text-[10px] md:text-sm gap-0" />
               <InfoItem label="VAT Registration Date:" :value="receiptData.customer.vatRegDate"
-                itemClass="text-xs md:text-sm gap-0" />
-              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-xs md:text-sm gap-0" />
-              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-xs md:text-sm gap-0" />
+                itemClass="text-[10px] md:text-sm gap-0" />
+              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-[10px] md:text-sm gap-0" />
+              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-[10px] md:text-sm gap-0" />
             </div>
           </div>
         </div>
 
         <!-- Payment Information -->
-        <div class="md:mb-6 mb-2 border rounded-md relative md:py-2">
-          <h2 class="md:text-lg text-sm font-semibold py-1 md:py-2 px-4  text-center border-b ">Payment / Transaction
+        <div class="md:mb-4 mb-2 border rounded-md relative md:py-2">
+          <h2 class="md:text-lg text-sm font-semibold py-1 md:py-2 px-4  text-center border-b m-0">Payment / Transaction
             Information</h2>
           <div class=" overflow-hidden flex flex-col md:gap-1">
             <InfoItem label="Payer:" :value="receiptData.payment.payer"
-              itemClass="border-b text-xs md:text-base py-2 px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Account:" :value="receiptData.payment.payerAccount"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Receiver:" :value="receiptData.payment.receiver"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Account:" :value="receiptData.payment.receiverAccount"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Payment Date & Time:" :value="receiptData.payment.dateTime"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Reference No. (VAT Invoice No):" :value="receiptData.payment.referenceNo"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Reason / Type of service:" :value="receiptData.payment.reason"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Transferred Amount:" :value="receiptData.payment.amount"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="Commission or Service Charge:" :value="receiptData.payment.commission"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <InfoItem label="15% VAT on Commission:" :value="receiptData.payment.vatOnCommission"
-              itemClass="border-b text-xs md:text-base py-2  px-4" :fullWidth="true" />
+              itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
             <div class="md:pt-2">
               <InfoItem label="Total amount debited from customer's account:" :value="receiptData.payment.totalDebited"
-                itemClass="text-xs md:text-base font-semibold py-1 md:py-2 px-4" :fullWidth="true" />
+                itemClass="text-xs md:text-base font-semibold py-2 md:py-2 px-4" :fullWidth="true" />
             </div>
           </div>
           <img v-if="company.logoBase64" width="200" height="200"
@@ -112,7 +112,7 @@
         <!-- Amount in Words -->
         <div class="flex flex-col md:flex-row items-center justify-between border md:p-0 md:px-4 md:gap-4 rounded-md">
           <div class="bg-gray-100 p-1 md:p-2 rounded-lg text-center h-fit w-full">
-            <p class="font-semibold text-sm md:text-base">Amount in Word:</p>
+            <p class="font-semibold text-xs md:text-base">Amount in Word:</p>
             <p class="text-gray-800 text-xs md:text-sm">{{ receiptData.amountInWords }}</p>
           </div>
           <UiCard class="md:w-24 md:h-24 h-16 w-16 flex justify-center items-center place-self-center my-2 bg-gray-50 dark:bg-white"
@@ -124,8 +124,8 @@
 
         <!-- Footer -->
         <div class="text-center text-gray-600 md:pt-4 pt-2 border-t">
-          <p class="font-semibold text-[#83257a] text-sm md:text-base">The Bank you can always rely on.</p>
-          <p class="md:text-sm text-xs">© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
+          <p class="font-semibold text-[#83257a] text-xs md:text-base">The Bank you can always rely on.</p>
+          <p class="md:text-sm text-[10px]">© {{ new Date().getFullYear() }} {{ company.name }}. All rights reserved.</p>
         </div>
       </div>
     </div>
