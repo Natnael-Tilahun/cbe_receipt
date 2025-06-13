@@ -153,6 +153,7 @@ import { amountToWords } from '~/server/utils/currencyFormatter';
 import type { CBEReceiptData } from '~/types';
 import { qrCodeUrl } from '~/server/utils/qrCodeUrlGenerator';
 import { getQRCodeBase64 } from '~/server/utils/getQRCodeBase64';
+import { maskAccountNumber } from '~/server/utils/maskAccountNumber';
 
 const qrCodeBase64 = ref<any>('');
 const mappedData = ref<CBEReceiptData>()
@@ -289,9 +290,9 @@ const mapApiResponseToReceiptData = async(apiResponse: any): Promise<CBEReceiptD
     },
     payment: {
       payer: txData.debitAccountHolder || "N/A",
-      payerAccount: txData.debitAccountNo || "N/A",
+      payerAccount: maskAccountNumber(txData.debitAccountNo),
       receiver: txData.creditAccountHolder || "N/A",
-      receiverAccount: txData.creditAccountNo || "N/A",
+      receiverAccount: maskAccountNumber(txData.creditAccountNo),
       dateTime: transactionDateTime,
       referenceNo: txData.id || "N/A",
       reason: txData.paymentDetails?.[0] || "N/A",
