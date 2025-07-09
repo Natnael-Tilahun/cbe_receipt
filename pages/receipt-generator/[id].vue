@@ -7,14 +7,28 @@
     </div>
 
     <!-- Error State -->
-    <div v-if="error " class="min-h-screen flex items-center py-10">
-      <div class="bg-red-100 p-6 rounded-lg text-center">
-        <p class="text-xl text-red-600 font-bold">Error loading the receipt:</p>
-        <p class="text-md py-4 rounded-md">{{ error }}</p>
-        <Button @click="fetchReceiptData" :disabled="isLoading" class="mt-4 w-1/2">
-          <svg v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v4m4.2 1.8l2.9-2.9M18 12h4m-5.8 4.2l2.9 2.9M12 18v4m-7.1-2.9l2.9-2.9M2 12h4M4.9 4.9l2.9 2.9"/></svg>
-          <!-- <Icon name="svg-spinners:8-dots-rotate" v-if="isLoading" class="mr-2 h-4 w-4 animate-spin"></Icon> -->
-          Retry
+    <div v-if="error" class="fixed inset-0 flex items-center justify-center z-50">
+      <div class="bg-white border-t-8 border-red-500 shadow-2xl rounded-xl px-8 py-10 max-w-md w-full text-center animate-fade-in">
+        <div class="flex justify-center mb-4">
+          <!-- Error Icon -->
+          <svg class="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <circle cx="12" cy="12" r="10" stroke-width="2" class="text-red-200" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9l-6 6m0-6l6 6" />
+          </svg>
+        </div>
+        <h2 class="md:text-2xl text-xl font-bold text-red-500 mb-2">Oops! Something went wrong</h2>
+        <p class="text-gray-700 mb-6 text-sm md:text-base">{{ error }}</p>
+        <Button
+          @click="fetchReceiptData"
+          :disabled="isLoading"
+          class="w-full bg-[#83257a] hover:bg-[#6d2066] text-white font-semibold py-2 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          <svg v-if="isLoading" class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+          <span v-if="isLoading">Retrying...</span>
+          <span v-else>Try Again</span>
         </Button>
       </div>
     </div>
@@ -341,12 +355,16 @@ async function fetchReceiptData() {
 
   } catch (err: any) {
     console.error('Error fetching receipt data:', err);
+    console.log("error: ", err.message)
     let errorMessage = 'Failed to fetch receipt details. Please try again.';
-    if (err.data && err.data.message) { // Specific to $fetch errors
-      errorMessage = `API Error: ${err.data.message}`;
-    } else if (err.message) {
-      errorMessage = err.message;
+    if (err.data && err.data.detail) { // Specific to $fetch errors
+      errorMessage = `${err.data.detail}`;
+    } else if (err.data && err.data.message) {
+      errorMessage = err.data.message;
     }
+    // else if(err.message){
+    //   errorMessage = err.message
+    // }
     error.value = errorMessage;
   } finally {
     isLoading.value = false;
@@ -432,5 +450,13 @@ async function downloadGeneratedPDF() {
     width: 100% !important;
     margin: 0 !important;
   }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 </style>
