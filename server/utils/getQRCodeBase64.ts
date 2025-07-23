@@ -3,7 +3,7 @@
 export const getQRCodeBase64 = async(idForQr: any) => {
 
     // Generate the URL for the receipt
-    const receiptViewerUrl = `https://cbe-receipt.vercel.app/receipt-generator/${idForQr}`;
+    const receiptViewerUrl = `${__HOME_URL__}/${idForQr}`;
     
     // Generate the QR code URL
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${receiptViewerUrl}`;

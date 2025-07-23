@@ -14,7 +14,7 @@ export const qrCodeUrl = computed(() => {
   if (!idForQr) return ""; // No ID available for QR code
 
   // Ensure the base URL for your receipt viewer is correct
-  const receiptViewerUrl = `https://cbe-receipt.vercel.app/receipt-generator/${idForQr}`;
+  const receiptViewerUrl = `${__HOME_URL__}/${idForQr}`;
   return `https://api.qrserver.com/v1/create-qr-code/?data=${receiptViewerUrl}`;
   
 });
