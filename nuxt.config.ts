@@ -33,7 +33,7 @@ export default defineNuxtConfig({
           __API_BASE_URL__: JSON.stringify(process.env.API_BASE_URL),
           __X_APP_ID__: JSON.stringify(process.env.X_APP_ID),
           __X_APP_VERSION__: JSON.stringify(process.env.X_APP_VERSION),
-          __HOME_URL__: JSON.stringify(process.env.HOME_URL) || "https://cbe-receipt.vercel.app/receipt-generator",
+          __HOME_URL__: JSON.stringify(process.env.HOME_URL),
         },
         plugins: [
           tailwindcss(),
