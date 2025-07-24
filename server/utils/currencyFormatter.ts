@@ -100,15 +100,4 @@ function amountToWords(
   return fullWords.replace(/\s+/g, ' ').trim(); // Clean up multiple spaces
 }
 
-// --- How to use it in your Vue component ---
-// Example usage:
-// console.log(amountToWords(250.00)); // "Two Hundred Fifty Ethiopian Birr Only"
-// console.log(amountToWords(12345.67)); // "Twelve Thousand Three Hundred Forty Five Ethiopian Birr and Sixty Seven Santim"
-// console.log(amountToWords(1000000)); // "One Million Ethiopian Birr Only"
-// console.log(amountToWords(0.50));    // "Fifty Santim"
-// console.log(amountToWords(0));       // "Zero Ethiopian Birr Only"
-// console.log(amountToWords(10.05));   // "Ten Ethiopian Birr and Five Santim"
-// console.log(amountToWords(20.00, "USD", "Cents")); // "Twenty USD Only"
-// console.log(amountToWords(15.25, "USD", "Cents")); // "Fifteen USD and Twenty Five Cents"
-
 export { amountToWords }; // Export if you put this in a separate utils.ts file

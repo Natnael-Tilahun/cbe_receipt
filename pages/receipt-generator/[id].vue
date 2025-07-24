@@ -156,9 +156,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router'; // Or from 'nuxt/app' if using Nuxt 3
-import { useRuntimeConfig } from '#app'; // For Nuxt 3, ensure this import is correct
 
 // Assuming these components are in ~/components/ or similar accessible path
 import InfoItem from '~/components/infoItem.vue';
@@ -197,7 +196,6 @@ const error = ref<string | null>(null);
 const isDownloadingPDF = ref(false); // Separate state for PDF download
 
 const route = useRoute();
-const runtimeConfig = useRuntimeConfig();
 
 // --- Helper Functions for API Data Mapping ---
 const formatAmount = (amount?: number | string, currency: string = "ETB"): string => {
@@ -337,11 +335,10 @@ async function fetchReceiptData() {
     return;
   }
 
-  const baseApiUrl = runtimeConfig.public.API_BASE_URL
-  const apiUrl = `${baseApiUrl}/api/v1/transactions/public/transaction-detail/${transactionId}`;
+  const apiUrl = `${__API_BASE_URL__}/api/v1/transactions/public/transaction-detail/${transactionId}`;
   const headers: Record<string, string> = {
-    'X-App-ID': runtimeConfig.public.X_APP_ID as string,
-    'X-App-Version': runtimeConfig.public.X_APP_VERSION as string,
+    'X-App-ID': __X_APP_ID__,
+    'X-App-Version': __X_APP_VERSION__,
   };
 
   try {

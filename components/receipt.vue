@@ -3,7 +3,7 @@
         <div class="w-full max-w-3xl bg-white text-black shadow-sm rounded-lg overflow-hidden">
             <!-- Receipt Header -->
             <div class="bg-primary print:bg-black text-white p-4 text-center flex items-center">
-                <img width="60" height="50" class="rounded-lg" src="/public/cbelogo1.jpeg" />
+                <img width="60" height="50" class="rounded-lg" src="/public/cbe.png" />
                 <div class="mr-auto w-full">
                     <h1 class="text-2xl font-bold">Commercial Bank of Ethiopia</h1>
                     <p class="text-lg">VAT Invoice / Customer Receipt</p>
@@ -100,7 +100,7 @@
               v-if="receiptData"
             >
               <img
-                :src="`https://api.qrserver.com/v1/create-qr-code/?data=https://cbe-receipt.vercel.app/receipt-generator?id=FT21343Z9J67-150744672`"
+                :src="`https://api.qrserver.com/v1/create-qr-code/?data=${__HOME_URL__}?id=FT21343Z9J67-150744672`"
                 alt="QR Code"
               />
             </UiCard>
