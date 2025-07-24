@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     public: {
       // Only expose non-sensitive configuration to client
       HOME_URL:
-      process.env.HOME_UR || 'https://cbe-receipt.vercel.app/receipt-generator',
+      process.env.HOME_URL || 'https://cbe-receipt.vercel.app/receipt-generator',
     },
   },
 
