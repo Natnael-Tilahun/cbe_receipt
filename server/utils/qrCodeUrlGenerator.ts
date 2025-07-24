@@ -5,6 +5,7 @@ import { useRoute } from "vue-router"; // Or from 'nuxt/app' if using Nuxt 3
 export const qrCodeUrl = computed(() => {
   const route = useRoute();
   let idForQr = "";
+  const runtimeConfig = useRuntimeConfig();
 
   const transactionIdFromRoute = route.params.id as string;
   if (transactionIdFromRoute) {
@@ -14,7 +15,7 @@ export const qrCodeUrl = computed(() => {
   if (!idForQr) return ""; // No ID available for QR code
 
   // Ensure the base URL for your receipt viewer is correct
-  const receiptViewerUrl = `${__HOME_URL__}/${idForQr}`;
+  const receiptViewerUrl = `${runtimeConfig.public.HOME_URL}/${idForQr}`;
   return `https://api.qrserver.com/v1/create-qr-code/?data=${receiptViewerUrl}`;
   
 });

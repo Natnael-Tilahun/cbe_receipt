@@ -100,7 +100,7 @@
               v-if="receiptData"
             >
               <img
-                :src="`https://api.qrserver.com/v1/create-qr-code/?data=${__HOME_URL__}?id=FT21343Z9J67-150744672`"
+                :src="`https://api.qrserver.com/v1/create-qr-code/?data=${runtimeConfig.public.HOME_URL}?id=FT21343Z9J67-150744672`"
                 alt="QR Code"
               />
             </UiCard>
@@ -130,6 +130,8 @@
 import { ref } from 'vue';
 import InfoItem from './infoItem.vue';
 import Button from './ui/button/Button.vue';
+
+const runtimeConfig = useRuntimeConfig();
 
 
 // Sample data structure

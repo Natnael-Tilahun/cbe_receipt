@@ -1,9 +1,10 @@
 // In your component or utility file
 
 export const getQRCodeBase64 = async(idForQr: any) => {
+  const runtimeConfig = useRuntimeConfig();
 
     // Generate the URL for the receipt
-    const receiptViewerUrl = `${__HOME_URL__}/${idForQr}`;
+    const receiptViewerUrl = `${runtimeConfig.public.HOME_URL}/${idForQr}`;
     
     // Generate the QR code URL
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${receiptViewerUrl}`;
