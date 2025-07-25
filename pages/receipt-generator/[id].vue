@@ -119,7 +119,7 @@
             </div>
           </div>
           <img v-if="company.logoBase64" width="200" height="200"
-            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-50" src="/cbestamp.png"
+            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-40" src="/cbestamp.png"
             alt="Company Stamp" />
         </div>
 
@@ -148,7 +148,7 @@
     <div class="flex gap-4 fixed bottom-5 z-10">
       <Button class="bg-[#83257a] text-white " v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
         <span v-if="isDownloadingPDF">Generating PDF...</span>
-        <span v-else>Download PDF</span>
+        <span v-else class="z-50">Download PDF</span>
       </Button>
     </div>
     <!-- <p v-if="error && !isLoading" class="text-red-500 mt-4 fixed bottom-20">{{ error }}</p> -->

@@ -204,7 +204,7 @@ export function generateReceiptHtml(data: CBEReceiptData): string {
                 v-if="receiptData.company.logoBase64"
                 width="200"
                 height="200"
-                class="absolute top-[35%] left-[35%] z-50"
+                class="absolute top-[35%] left-[35%] z-40"
                 src="${cbeStampBaseImage}"
                 alt="Company Logo"
               />

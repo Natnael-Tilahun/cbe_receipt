@@ -48,6 +48,7 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log('[API /generate-receipt] Determining Chromium executable path...');
     let executablePath: string | undefined;
 
+
     if (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview' || process.env.NODE_ENV === 'production') {
       // Vercel or other production-like environments
       console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel/production.');
@@ -91,6 +92,8 @@ export default defineEventHandler(async (event: H3Event) => {
         ...chromium.args,
         '--font-render-hinting=none', // Optional: Can improve font rendering on some Linux systems
         // '--disable-web-security', // Uncomment if you face issues loading local/cross-origin resources in HTML
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
       ],
       defaultViewport: chromium.defaultViewport,
       executablePath: executablePath,

@@ -83,7 +83,7 @@
             v-if="receiptData.company.logoBase64"
             width="200"
             height="200"
-            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-50"
+            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-40"
             src="/cbestamp.png"
             alt="Company Logo"
           />
@@ -119,7 +119,7 @@
             <Button @click="printReceipt" class="bg-green-700 hover:bg-green-800 text-white">
                 Print Receipt
             </button>
-            <Button @click="downloadPDF">
+            <Button class="z-50" @click="downloadPDF">
                 Download PDF
             </Button>
         </div>
