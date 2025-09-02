@@ -119,7 +119,7 @@
             </div>
           </div>
           <img v-if="company.logoBase64" width="200" height="200"
-            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-40" src="/cbestamp.png"
+            class="absolute md:top-[35%] md:left-[40%] top-[50%] left-[22%]  z-40" src="/cbestamp.png"
             alt="Company Stamp" />
         </div>
 
@@ -456,4 +456,4 @@ async function downloadGeneratedPDF() {
 .animate-fade-in {
   animation: fade-in 0.4s cubic-bezier(0.4,0,0.2,1);
 }
-</style>
+</style> 
