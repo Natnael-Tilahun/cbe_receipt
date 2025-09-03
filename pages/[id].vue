@@ -91,7 +91,7 @@
         <!-- Payment Information -->
         <div class="md:mb-4 mb-2 border rounded-md relative md:py-2">
           <h2 class="md:text-lg text-sm font-semibold py-1 md:py-2 px-4  text-center border-b m-0">Payment / Transaction
-            Information</h2>
+            Informations</h2>
           <div class=" overflow-hidden flex flex-col md:gap-1">
             <InfoItem label="Payer:" :value="receiptData.payment.payer"
               itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />

@@ -2,6 +2,8 @@
 import puppeteerCore, { type Browser } from 'puppeteer-core'; // Import from puppeteer-core
 import chromium from '@sparticuz/chromium'; // Import @sparticuz/chromium
 import { defineEventHandler, readBody, H3Event } from 'h3';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 // Ensure this path is correct and the file is error-free
 import { generateReceiptHtml } from '../utils/receiptHtmlTemplate'; // Assuming this is correct
@@ -41,7 +43,21 @@ export default defineEventHandler(async (event: H3Event) => {
       return { error: 'Amount in words is required.' };
     }
 
-    const htmlContent = generateReceiptHtml(body);
+    // Read compiled CSS for offline server injection
+    let cssContent = '';
+    const isOfflineServer = process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV;
+    if (isOfflineServer) {
+      try {
+        const cssPath = path.resolve(process.cwd(), '.output/public/css/tailwind-built.css');
+        cssContent = await fs.readFile(cssPath, 'utf-8');
+        console.log(`[API /generate-receipt] Inlined CSS from: .output/public/css/tailwind-built.css`);
+      } catch (e) {
+        console.error('[API /generate-receipt] Critical error: Could not read inline CSS for PDF:', e);
+        // Do not block PDF generation, it will just be unstyled
+      }
+    }
+
+    const htmlContent = generateReceiptHtml(body, cssContent);
     console.log('[API /generate-receipt] HTML content generated. Length:', htmlContent.length);
 
     // --- Puppeteer Logic ---
@@ -49,32 +65,25 @@ export default defineEventHandler(async (event: H3Event) => {
     let executablePath: string | undefined;
 
 
-    if (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview' || process.env.NODE_ENV === 'production') {
-      // Vercel or other production-like environments
-      console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel/production.');
+    if (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview') {
+      // Vercel environment
+      console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel.');
       executablePath = await chromium.executablePath();
+    } else if (process.env.NODE_ENV === 'production') {
+      // For production server, use the system-installed Chrome
+      console.log('[API /generate-receipt] Using system-installed Chrome for production.');
+      executablePath = '/usr/bin/google-chrome-stable';
     } else {
       // Local development
       console.log('[API /generate-receipt] Using local Chromium for development.');
-      // 1. Try environment variable
-      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-      // 2. Try puppeteer-core's discovery (looks for system-installed Chrome)
-      if (!executablePath) {
-        try {
-          executablePath = puppeteerCore.executablePath();
-        } catch (e) {
-          console.warn('[API /generate-receipt] puppeteerCore.executablePath() failed to find local Chrome. This is common if Chrome is not in standard path or PUPPETEER_EXECUTABLE_PATH is not set.');
-        }
+      try {
+        executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteerCore.executablePath();
+      } catch (e) {
+        console.warn('[API /generate-receipt] Could not find local Chrome installation. Falling back to @sparticuz/chromium.');
       }
-      // 3. Fallback to @sparticuz/chromium if still not found (useful for consistent testing or if local Chrome is tricky)
-      //    This means @sparticuz/chromium will download its binary locally if not cached.
+
       if (!executablePath) {
-          console.warn('[API /generate-receipt] Local Chrome not found/configured. Falling back to @sparticuz/chromium for local development.');
-          try {
-              executablePath = await chromium.executablePath(); // This might download chromium locally
-          } catch (e: any) {
-              console.error('[API /generate-receipt] Failed to get executable path from @sparticuz/chromium locally:', e.message);
-          }
+        executablePath = await chromium.executablePath();
       }
     }
 
@@ -91,6 +100,8 @@ export default defineEventHandler(async (event: H3Event) => {
       args: [
         ...chromium.args,
         '--font-render-hinting=none', // Optional: Can improve font rendering on some Linux systems
+        '--force-color-profile=srgb', // Force sRGB color profile for consistent colors
+        '--disable-lcd-text', // Improve text sharpness in PDFs
         // '--disable-web-security', // Uncomment if you face issues loading local/cross-origin resources in HTML
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -106,7 +117,7 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log('[API /generate-receipt] Puppeteer page created.');
 
     console.log('[API /generate-receipt] Setting page content...');
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    await page.setContent(htmlContent, { waitUntil: 'domcontentloaded' });
     console.log('[API /generate-receipt] Page content set.');
 
     // Optional: Emulate print media type if your CSS has @media print styles
