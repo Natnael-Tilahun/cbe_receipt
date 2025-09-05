@@ -35,9 +35,6 @@ export default defineNuxtConfig({
           __X_APP_VERSION__: JSON.stringify(process.env.X_APP_VERSION),
           // __HOME_URL__: JSON.stringify(process.env.HOME_URL),
         },
-        plugins: [
-          tailwindcss(),
-        ],
       },
   css: ['~/assets/css/tailwind.css'],
   app: {
@@ -69,7 +66,7 @@ export default defineNuxtConfig({
       "composables/**",
     ],
   },
-  modules: ['shadcn-nuxt', '@nuxt/icon'],
+  modules: ['shadcn-nuxt', '@nuxt/icon', '@nuxtjs/tailwindcss'],
   shadcn: {
     /**
      * Prefix for all the imported component

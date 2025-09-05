@@ -91,7 +91,7 @@
         <!-- Payment Information -->
         <div class="md:mb-4 mb-2 border rounded-md relative md:py-2">
           <h2 class="md:text-lg text-sm font-semibold py-1 md:py-2 px-4  text-center border-b m-0">Payment / Transaction
-            Information</h2>
+            Informations</h2>
           <div class=" overflow-hidden flex flex-col md:gap-1">
             <InfoItem label="Payer:" :value="receiptData.payment.payer"
               itemClass="border-b text-[10px] md:text-base py-2 md:py-2 px-4" :fullWidth="true" />
@@ -119,7 +119,7 @@
             </div>
           </div>
           <img v-if="company.logoBase64" width="200" height="200"
-            class="absolute md:top-[35%] md:left-[35%] top-[35%] left-[25%] z-50" src="/cbestamp.png"
+            class="absolute md:top-[35%] md:left-[40%] top-[50%] left-[22%]  z-40" src="/cbestamp.png"
             alt="Company Stamp" />
         </div>
 
@@ -148,7 +148,7 @@
     <div class="flex gap-4 fixed bottom-5 z-10">
       <Button class="bg-[#83257a] text-white " v-if="!error && !isLoading" @click="downloadGeneratedPDF" :disabled="isDownloadingPDF || !receiptData || isLoading">
         <span v-if="isDownloadingPDF">Generating PDF...</span>
-        <span v-else>Download PDF</span>
+        <span v-else class="z-50">Download PDF</span>
       </Button>
     </div>
     <!-- <p v-if="error && !isLoading" class="text-red-500 mt-4 fixed bottom-20">{{ error }}</p> -->
@@ -456,4 +456,4 @@ async function downloadGeneratedPDF() {
 .animate-fade-in {
   animation: fade-in 0.4s cubic-bezier(0.4,0,0.2,1);
 }
-</style>
+</style> 
