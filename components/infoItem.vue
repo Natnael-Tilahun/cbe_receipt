@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="{'flex justify-between text-xs md:text-base': !fullWidth, 'grid grid-cols-2': fullWidth}, itemClass" class="py-0">
+    <div :class="{'flex justify-between md:text-base': !fullWidth, 'grid grid-cols-2': fullWidth}, itemClass" class="py-0">
      <span class="text-black" :class="{'md:w-full': !fullWidth, 'md:col-span-1': fullWidth}">{{ label }}</span>
      <span class="text-black text-right  md:text-sm" :class="{'md:w-full': !fullWidth, 'md:col-span-1': fullWidth}">{{ value || '-' }}</span>
    </div>

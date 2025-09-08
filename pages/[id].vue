@@ -54,36 +54,37 @@
           <div>
             <h2 class="md:text-base text-[11px] font-semibold mb-1 md:mb-2 border-b md:pb-1">Company Address & Other Information</h2>
             <div class="grid gap-1 md:gap-2">
-              <InfoItem label="Country:" :value="company.country" itemClass="text-[10px] md:text-sm space-x-2" />
-              <InfoItem label="City:" :value="company.city" itemClass="text-[10px] md:text-sm" />
-              <InfoItem label="Address:" :value="company.address" itemClass="text-[10px] md:text-sm" />
-              <InfoItem label="Postal code:" :value="company.postalCode" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="SWIFT Code:" :value="company.swiftCode" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="Email:" :value="company.email" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="Tel:" :value="company.tel" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="Fax:" :value="company.fax" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="Tin:" :value="company.tfn" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="VAT Receipt No:" :value="company.vatReceiptNo" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="VAT Registration No:" :value="company.vatRegNo" itemClass="text-[10px] md:text-sm " />
-              <InfoItem label="VAT Registration Date:" :value="company.vatRegDate" itemClass=" text-[10px] md:text-sm " />
+              <InfoItem label="Country:" :value="company.country" itemClass="text-[11px] md:text-sm space-x-2" />
+              <InfoItem label="City:" :value="company.city" itemClass="text-[11px] md:text-sm" />
+              <InfoItem label="Address:" :value="company.address" itemClass="text-[11px] md:text-sm" />
+              <InfoItem label="Postal code:" :value="company.postalCode" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="SWIFT Code:" :value="company.swiftCode" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="Email:" :value="company.email" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="Tel:" :value="company.tel" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="Fax:" :value="company.fax" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="Tin:" :value="company.tfn" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="VAT Receipt No:" :value="company.vatReceiptNo" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="VAT Registration No:" :value="company.vatRegNo" itemClass="text-[11px] md:text-sm " />
+              <InfoItem label="VAT Registration Date:" :value="company.vatRegDate" itemClass=" text-[11px] md:text-sm " />
             </div>
           </div>
           <!-- Customer Information -->
           <div>
             <h2 class="md:text-base text-[11px] font-semibold mb-1 md:mb-2 border-b md:pb-1">Customer Information</h2>
             <div class="grid grid-cols-1 gap-1 md:gap-2">
-              <InfoItem label="Customer Name:" :value="receiptData.customer.name" itemClass=" text-[10px] md:text-sm gap-0" />
-              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-[10px] md:text-sm gap-0" />
-              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-[10px] md:text-sm gap-0" />
-              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-[10px] md:text-sm gap-0" />
+              <InfoItem label="Customer Name:" :value="receiptData.customer.name"
+              itemClass="text-[11px] md:text-sm text-black" />
+              <InfoItem label="Region:" :value="receiptData.customer.region" itemClass="text-[11px] md:text-sm gap-0" />
+              <InfoItem label="City:" :value="receiptData.customer.city" itemClass="text-[11px] md:text-sm gap-0" />
+              <InfoItem label="Sub City:" :value="receiptData.customer.subCity" itemClass="text-[11px] md:text-sm gap-0" />
               <InfoItem label="Wereda/Kebele:" :value="receiptData.customer.weredaKebele"
-                itemClass="text-[10px] md:text-sm gap-0" />
+                itemClass="text-[11px] md:text-sm gap-0" />
               <InfoItem label="VAT Registration No:" :value="receiptData.customer.vatRegNo"
-                itemClass="text-[10px] md:text-sm gap-0" />
+                itemClass="text-[11px] md:text-sm gap-0" />
               <InfoItem label="VAT Registration Date:" :value="receiptData.customer.vatRegDate"
-                itemClass="text-[10px] md:text-sm gap-0" />
-              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-[10px] md:text-sm gap-0" />
-              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-[10px] md:text-sm gap-0" />
+                itemClass="text-[11px] md:text-sm gap-0" />
+              <InfoItem label="TIN (TAX ID):" :value="receiptData.customer.tin" itemClass="text-[11px] md:text-sm gap-0" />
+              <InfoItem label="Branch:" :value="receiptData.customer.branch" itemClass="text-[11px] md:text-sm gap-0" />
             </div>
           </div>
         </div>
