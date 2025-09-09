@@ -69,14 +69,9 @@ export default defineEventHandler(async (event: H3Event) => {
       console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel.');
       executablePath = await chromium.executablePath();
     } else if (process.env.NODE_ENV === 'production') {
-      // For production servers (UAT, Prod)
-      console.log('[API /generate-receipt] Using @sparticuz/chromium with custom path for production server.');
-      const downloadPath = '/usr/share/nginx/html/chromium-bin';
-      // Ensure the directory exists before attempting to download
-      await fs.mkdir(downloadPath, { recursive: true });
-      executablePath = await chromium.executablePath({
-        downloadPath,
-      });
+      // For production server, use sparticuz-chromium which will unpack to the safe TMPDIR we defined.
+      console.log('[API /generate-receipt] Using @sparticuz/chromium for production server.');
+      executablePath = await chromium.executablePath();
     } else {
       // Local development
       console.log('[API /generate-receipt] Using local Chromium for development.');

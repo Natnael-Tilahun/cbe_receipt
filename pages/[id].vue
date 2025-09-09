@@ -279,7 +279,7 @@ const mapApiResponseToReceiptData = async(apiResponse: any): Promise<CBEReceiptD
 
   // Combine date and time
   const transactionDateTime = txData.dateTimes?.[0]
-    ? `${formatTransactionDate(txData.processingDate)} ${formatTransactionTime(txData.dateTimes[0])}`
+    ? `${formatTransactionDate(txData.processingDate)}`
     : formatTransactionDate(txData.processingDate);
 
   let numericAmountForWords: number | undefined;
