@@ -64,15 +64,14 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log('[API /generate-receipt] Determining Chromium executable path...');
     let executablePath: string | undefined;
 
-
     if (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview') {
       // Vercel environment
       console.log('[API /generate-receipt] Using @sparticuz/chromium for Vercel.');
       executablePath = await chromium.executablePath();
     } else if (process.env.NODE_ENV === 'production') {
-      // For production server, use the system-installed Chrome
-      console.log('[API /generate-receipt] Using system-installed Chrome for production.');
-      executablePath = '/usr/bin/google-chrome-stable';
+      // For production server, use sparticuz-chromium which will unpack to the safe TMPDIR we defined.
+      console.log('[API /generate-receipt] Using @sparticuz/chromium for production server.');
+      executablePath = await chromium.executablePath();
     } else {
       // Local development
       console.log('[API /generate-receipt] Using local Chromium for development.');
@@ -88,7 +87,7 @@ export default defineEventHandler(async (event: H3Event) => {
     }
 
     if (!executablePath) {
-      const errorMessage = '[API /generate-receipt] Chromium executable path could not be determined. For local dev, set PUPPETEER_EXECUTABLE_PATH or ensure Chrome/Chromium is installed and findable. On Vercel, this indicates an issue with @sparticuz/chromium.';
+      const errorMessage = '[API /generate-receipt] Chromium executable path could not be determined. Please check environment configuration.';
       console.error(errorMessage);
       event.node.res.statusCode = 500;
       return { error: 'Failed to configure PDF generator.', details: errorMessage };
